@@ -2,9 +2,9 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
-        //The repaired ForwardAlgorithm algorithm doesnt work because it cant do row swaps. This is a problem because
+        //The repaired ForwardAlgorithm algorithm doesn't work because it cant do row swaps. This is a problem because
         // when there is a 0 where a pivot should be, A[i][i], a scalar will fail to be formed that will eliminate
-        // the entry below it in the i+1 row. This is because nothing can be multiplied by 0 to create a non zero
+        // the entry below it in the i+1 row. This is because nothing can be multiplied by 0 to create a non-zero
         // number.
 
         //The BetterForwardAlgorithm doesn't work because the matrix is linearly dependant. This causes there to be a
@@ -14,6 +14,11 @@ public class Main {
         // until the n-2nd column (solutions column is skipped). Since the correct swaps have already taken place, if
         // there are no pivots left in the ith row, then the matrix is guaranteed in upper triangular form as the
         // only items under the potential pivot are 0.
+
+        gaussJordanElimination();
+    }
+
+    private static void gaussJordanElimination(){
         float[][] num3 = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 364}, {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4},
             {0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 16}, {0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 36},
             {0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 64}, {0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 100},
@@ -24,9 +29,16 @@ public class Main {
         float[][] test1 = {{1,0,2,3},{0,1,0,1},{0,1,2,0}};
         //4,1,1/2
 
-        float[][] current = test1;
-        GaussJordan.eliminator(current);
-        for (float[] row : current) {
+        System.out.println("Answer to number 3: ");
+        GaussJordan.eliminator(num3);
+        printDeepArray(num3);
+        System.out.println("Test from online: ");
+        GaussJordan.eliminator(test1);
+        printDeepArray(test1);
+    }
+
+    private static void printDeepArray(float[][] arr){
+        for (float[] row : arr){
             System.out.println(Arrays.toString(row));
         }
     }
