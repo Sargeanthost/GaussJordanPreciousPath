@@ -2,9 +2,11 @@ public class GaussJordan {
     /**
      * Gauss-Jordan elimination. Some liberties have been taken with this code and I don't expect it to work for mxn
      * coeff matrices (not tested). Works on assumption that means "modify the algorithm in the book", modification
-     * can be done to the input, as the user now has to append arr a and b. What's also not tested are dependent systems.
+     * can be done to the input, as the user now has to append arr a and b. What's also not tested are dependent
+     * systems.
      * A flag system could be introduced and sent to a helper function if this is the case, as well as a while loop to
-     * iterate over potential pivots in the row, and if none are found send the 0 row vector to the bottom of the matrix.
+     * iterate over potential pivots in the row, and if none are found send the 0 row vector to the bottom of the
+     * matrix.
      *
      * @param aug the augmented matrix
      */
@@ -43,9 +45,9 @@ public class GaussJordan {
                     continue;
                 }
                 //can use cr|cr as guaranteed to have no non-zero entries to left of i|i
-                float zeroMaker = aug[workingRow][currentRow] / aug[currentRow][currentRow];
+                float zeroScaler = aug[workingRow][currentRow];//  /aug[currentRow][currentRow]. works cause pivot 1
                 for (int element = currentRow; element <= len; element++) {
-                    aug[workingRow][element] -= aug[currentRow][element] * zeroMaker;
+                    aug[workingRow][element] -= aug[currentRow][element] * zeroScaler;
                 }
             }
         }
