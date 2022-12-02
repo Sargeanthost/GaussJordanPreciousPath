@@ -29,12 +29,10 @@ public class PathFinder {
 
         //Find max value for row N
         int maxSumIndex = getMaxIndex(matrix[0]);
-
         path[0] = maxSumIndex;
         path[path.length - 1] = matrix[0][maxSumIndex];
         //start backtrack
         for (int curRow = 0; curRow < matrix.length - 1; curRow++) {
-            //            int prevMaxIndex = maxSumIndex;
             int[] posMaxes = new int[3];
             for (int offset = 0; offset < 3; offset++) {
                 int index = maxSumIndex + (offset - 1);
