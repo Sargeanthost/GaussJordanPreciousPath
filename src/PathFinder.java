@@ -1,37 +1,58 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.IntStream;
 
 public class PathFinder {
     /**
-     * Finds the most precious path (greatest sum), with the last index the vault number. Moves allowed are up, diag
-     * left, and diag right.
+     * Finds the most precious path (maximum path sum), with the last index set as the vault number. Moves allowed are
+     * up, diag left, and diag right.
      *
      * @param matrix a matrix with gemstone values as elements
-     * @return returns a List of indices with the optimal sums in backtracking order. Last entry will the vault number
-     * with the Arkenstone in it
+     * @return returns an array of indices with the optimal sums in backtracking order. Last entry is max sum
      */
-    public static List<Integer> mostPreciousPath(int[][] matrix) {
-        List<Integer> path = new ArrayList<>();
+    public static int[] mostPreciousPath(int[][] matrix) {
+        int[] path = new int[matrix.length + 1];
 
-        //Modify array
+        //Modify array, starting at second row
         for (int curRow = matrix.length - 2; curRow >= 0; curRow--) {
-            int max = 0;
-            //for each col in row, check its constituents from previous row.
             for (int col = 0; col < matrix[0].length; col++) {
                 int[] posMaxes = new int[3];
                 for (int offset = 0; offset < 3; offset++) {
-                    int index = col + (offset -1);
+                    int index = col + (offset - 1);
                     if (index >= 0 && index < matrix[0].length) {
-                        posMaxes[offset] = matrix[curRow+1][index];
+                        posMaxes[offset] = matrix[curRow + 1][index];
                     }
                 }
                 matrix[curRow][col] += IntStream.of(posMaxes).max().orElseThrow();
             }
         }
 
-        //Backtrack
+        //Greedy backtrack
 
+        //Find max value for row N
+        int maxSumIndex = getMaxIndex(matrix[0]);
+
+        path[0] = maxSumIndex;
+        path[path.length - 1] = matrix[0][maxSumIndex];
+        //start backtrack
+        for (int curRow = 0; curRow < matrix.length - 1; curRow++) {
+            //            int prevMaxIndex = maxSumIndex;
+            int[] posMaxes = new int[3];
+            for (int offset = 0; offset < 3; offset++) {
+                int index = maxSumIndex + (offset - 1);
+                if (index >= 0 && index < matrix[0].length) {
+                    posMaxes[offset] = matrix[curRow + 1][index];
+                }
+            }
+            maxSumIndex += getMaxIndex(posMaxes) - 1;
+            path[curRow + 1] = maxSumIndex;
+        }
         return path;
+    }
+
+    private static int getMaxIndex(int[] arr) {
+        int maxSumIndex = 0;
+        for (int i = 1; i < arr.length; i++) {
+            maxSumIndex = arr[i] > arr[maxSumIndex] ? i : maxSumIndex;
+        }
+        return maxSumIndex;
     }
 }
